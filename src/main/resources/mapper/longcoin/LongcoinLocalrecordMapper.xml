@@ -104,10 +104,10 @@ select * from t_longcoin_localrecord t
             <if test="seq != null and seq!=''" >
                 and t.seq = #{seq,jdbcType=VARCHAR}
             </if>
-            <if test="createTimeStart != null and createTimeStart!=''" >
+            <if test="createTimeStart != null" >
                 and  <![CDATA[ t.create_time  >=  #{createTimeStart}  ]]>
             </if>
-            <if test="createTimeEnd != null and createTimeEnd!=''" >
+            <if test="createTimeEnd != null" >
                 and  <![CDATA[ t.create_time  <=  #{createTimeEnd} ]]>
             </if>
         </where>
