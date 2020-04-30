@@ -1,0 +1,123 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /longcointest
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://gz-cdb-o77g5le8.sql.tencentcdb.com:63194/zlactivity_test
+    username: zlactivity_test
+    password: 2020qy@#$%
+    #        url: jdbc:mysql://127.0.0.1:3306/housing
+    #        username: root
+    #        password: 2019fy@#$%
+    initial-size: 10
+    max-active: level
+    min-idle: 10
+    max-wait: 60000
+    pool-prepared-statements: true
+    max-pool-prepared-statement-per-connection-size: 20
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    validation-query: SELECT 1 FROM DUAL
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    stat-view-servlet:
+      enabled: true
+      url-pattern: /druid/*
+      login-username: admin
+      login-password: admin
+    filter:
+      stat:
+        log-slow-sql: true
+        slow-sql-millis: 1000
+        merge-sql: true
+      wall:
+        config:
+          multi-statement-allow: true
+  redis:
+    open: true  # 是否开启redis缓存  true开启   false关闭
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 5000  # 连接超时时长（毫秒）
+    pool:
+      max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+      max-wait: -1      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-idle: 10      # 连接池中的最大空闲连接
+      min-idle: 5       # 连接池中的最小空闲连接
+      test-on-create: false #
+      test-on-return: false #
+      test-on-borrow: true #在空闲时检查有效性
+      test-while-idle: true #在获取连接的时候检查有效
+
+  freemarker:
+    #    allow-request-override: false  #req访问request
+    check-template-location: true  #req访问request
+    expose-spring-macro-helpers: true  #req访问request
+    expose-request-attributes: true  #req访问request
+    expose-session-attributes: true  #req访问request
+    request-context-attribute: request  #req访问request
+    #    request-context-attribute: request
+    suffix: .html  #后缀名
+    content-type: text/html
+    enabled: true
+    cache: false #缓存配置
+    template-loader-path: classpath:/templates/ #模板加载路径 按需配置
+    charset: UTF-8 #编码格式
+    settings:
+      template_update_delay: 0      #页面缓存
+    number_format: '0.##'   #数字格式化，无小数
+
+    # slf4j日志配置
+  logging:
+    # 配置级别
+    level:
+      #分包配置级别，即不同的目录下可以使用不同的级别
+      com.icloud: INFO
+      root: INFO
+      org.springframework.web: DEBUG
+
+#本地全局属性
+mypros:
+  uploadpath: /uploadpath/ #文件保存目录前缀
+  activein: dev #local 本地 dev 开发  pro生产
+  service_domain: http://zl.haiyunzy.com/bsactivity/
+  wx: #微信相关参数
+    appid: wxccb43a09acc5a5c8
+    appsecret:
+    getUserInfo: https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=http://zl.haiyunzy.com/crowdweb/thirdInterface/getUserInfos&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
+    infokey: 57C2C03D30DA412A74FF2B461E382317
+    jssdk_key: jssdkconfigkey
+    imcchost: 211.159.184.84
+    imcchostport: 7003
+    hosttel: 15709
+    hostnumber: gh_3d9742641f8b
+    host: 211.159.184.84:7003
+  longcoin: #龙币接口相关参数
+    sid: 100245
+    key: 8jhhgfbrt3c3bdrdrty77nneryhyerfs
+    rechargetype: 1048
+    consumetype: 2033
+    queryUrl: http://jfapi.gxtianhai.cn/api/dcurrency/query.do
+    rechargeUrl: http://jfapi.gxtianhai.cn/api/dcurrency/recharge.do
+    consumeUrl: http://jfapi.gxtianhai.cn/api/dcurrency/consume.do
+    #新会员充值直接注册
+    sid_signup: 100246
+    key_signup: dfr6tybrthj56rertedf45asgfhgf343
+    chareAmount: 100
+    data_file_dir: /day_data/ #账单文件路径
+    data_bak_dir: /day_bak/ #下载完成后 的备份路径
+    sids[0]: 100245   #sids 调用账号
+    sids[1]: 100246
+    longcoin_data_bill: /data/imcc/webapps/longcoin/uploadpath/longcoin/ #下载账单到本地路径
+  #二维码生成参数
+bsactivity:
+  width: 256
+  height: 256
+  text: http://zl.haiyunzy.com/bsactivity/frontpage/bsactivity/order/scanExchange?qcode=QCODE
+  savepath: bsactivitypath
+  asekey: e3542dbd856f2927ddbc787e15c83b03

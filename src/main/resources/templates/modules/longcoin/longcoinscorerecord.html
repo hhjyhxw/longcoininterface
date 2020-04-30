@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>积分商城龙币记录</title>
+		<#include "/header.html">
+</head>
+<body>
+<div id="icloudapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("longcoin:longcoinscorerecord:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("longcoin:longcoinscorerecord:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("longcoin:longcoinscorerecord:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+														                    <div class="form-group">
+                        <div class="col-sm-2 control-label">流水号</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.seq" placeholder="流水号"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">用户账户</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.useraccount" placeholder="用户账户"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">账户类型（1、手机号码 2、微信openId 3、微信unionId）</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.accounttype" placeholder="账户类型（1、手机号码 2、微信openId 3、微信unionId）"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">操作类别 (2、消费、3充值)</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.operatortype" placeholder="操作类别 (2、消费、3充值)"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">充值消耗类别ID </div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.operatortypeid" placeholder="充值消耗类别ID "/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">金额</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.amount" placeholder="金额"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">本地创建时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.createTime" placeholder="本地创建时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">是否已对账</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.checked" placeholder="是否已对账"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">账结果1平0本地多2龙币商城多</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.checkedResult" placeholder="账结果1平0本地多2龙币商城多"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">对账时间</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.checkedTime" placeholder="对账时间"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">异常处理状态1正常，0未处理2已处理</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.exceptionFlag" placeholder="异常处理状态1正常，0未处理2已处理"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">处理结果</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.result" placeholder="处理结果"/>
+                        </div>
+                    </div>
+											                    <div class="form-group">
+                        <div class="col-sm-2 control-label">账单日期</div>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" v-model="longcoinScorerecord.billDate" placeholder="账单日期"/>
+                        </div>
+                    </div>
+							            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" id="btnSaveOrUpdate" data-loading-text="保存中..." @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="${request.contextPath}/statics/js/modules/longcoin/longcoinscorerecord.js?_${.now?long}"></script>
+</body>
+</html>
