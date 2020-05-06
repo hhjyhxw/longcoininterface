@@ -81,25 +81,12 @@ public class LongbiServiceImpl {
 	 */
 	public JSONObject recharge(Map<String, String> params) throws Exception {
         log.error("龙币充值param====="+ JSON.toJSONString(params));
-        LongcoinLocalrecord record = longCoinUtil.getLocalRecord(params);
-        longcoinLocalrecordService.save(record);
         String result = longCoinUtil.sendRequest(params, longCoinUtil.getRechargeUrl());
         log.error("龙币充值result====="+result);
         if(result==null){
-            record.setStatus("2");
-            record.setStatusResult("null");
-            longcoinLocalrecordService.updateById(record);
             return	null;
         }
-        JSONObject rjson =JSON.parseObject(result);
-        if(result!=null && rjson.containsKey("returncode") && "000000".equals(rjson.getString("returncode"))){
-            record.setStatus("1");
-        }else{
-            record.setStatus("2");
-            record.setStatusResult(rjson.getString("returnmsg"));
-        }
-        longcoinLocalrecordService.updateById(record);
-        return rjson;
+        return JSON.parseObject(result);
 	}
 
 	/**
@@ -111,26 +98,12 @@ public class LongbiServiceImpl {
 	 */
 	public JSONObject consume(Map<String, String> params) throws Exception {
         log.error("龙币消费param====="+ JSON.toJSONString(params));
-        LongcoinLocalrecord record = longCoinUtil.getLocalRecord(params);
-        longcoinLocalrecordService.save(record);
-
         String result = longCoinUtil.sendRequest(params, longCoinUtil.getConsumeUrl());
         log.error("龙币消费result====="+result);
         if(result==null){
-            record.setStatus("2");
-            record.setStatusResult("null");
-            longcoinLocalrecordService.updateById(record);
             return	null;
         }
-        JSONObject rjson =JSON.parseObject(result);
-        if(rjson.containsKey("returncode") && "000000".equals(rjson.getString("returncode"))){
-            record.setStatus("1");
-        }else{
-            record.setStatus("2");
-            record.setStatusResult(rjson.getString("returnmsg"));
-        }
-        longcoinLocalrecordService.updateById(record);
-        return rjson;
+        return JSON.parseObject(result);
 	}
 
 }

@@ -82,7 +82,23 @@ public class LongCoinController {
         JSONObject result = null;
         String message = "";
         try {
-            return longbiServiceImpl.consume(params);
+            LongcoinLocalrecord record = longCoinUtil.getLocalRecord(params);
+            longcoinLocalrecordService.save(record);
+            result = longbiServiceImpl.consume(params);
+            if(result==null){
+                record.setStatus("2");
+                record.setStatusResult("null");
+                longcoinLocalrecordService.updateById(record);
+                return	null;
+            }
+            if(result!=null && result.containsKey("returncode") && "000000".equals(result.getString("returncode"))){
+                record.setStatus("1");
+            }else{
+                record.setStatus("2");
+                record.setStatusResult(result.getString("returnmsg"));
+            }
+            longcoinLocalrecordService.updateById(record);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             message = e.getMessage();

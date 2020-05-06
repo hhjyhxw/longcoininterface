@@ -344,8 +344,8 @@ public class LongCoinUtil {
         localrecord.setSeq(paramMap.get("seq").toString());
         localrecord.setAccounttype(paramMap.get("accounttype").toString());
         localrecord.setUseraccount(paramMap.get("useraccount").toString());
-        localrecord.setCreateTime(new Date(1000*(inittime+Long.parseLong(paramMap.get("timestamp").toString()))));
-
+//        localrecord.setCreateTime(new Date(1000*(inittime+Long.parseLong(paramMap.get("timestamp").toString()))));
+        localrecord.setCreateTime(new Date());
         //充值
         if(paramMap.get("rechargetype")!=null && !"".equals(paramMap.get("rechargetype").trim())){
             localrecord.setOperatortype("2");
