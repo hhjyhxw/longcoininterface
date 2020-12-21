@@ -275,7 +275,7 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.10</version>
+            <version>1.4.15</version>
         </dependency>
 
         <!-- Excel导入jar包 -->
@@ -455,7 +455,7 @@
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.11-java7</version>
+            <version>1.4.15</version>
         </dependency>
 
         <!-- 微信支付 -->
